@@ -15,6 +15,7 @@ body {
   display: none !important;
 }
 
+
 .message {
   text-align: center;
   text-transform: uppercase;
@@ -250,4 +251,46 @@ ul {
   .fact-form select {
     width: auto;
   }
+}
+/* Add this to style.css */
+
+/* Add this to style.css */
+
+.modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8); /* Adjust background overlay for a darker theme */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #44403c; /* Match the background color of fact cards */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  position: relative;
+  color: #fafaf9; /* Ensure text color matches the rest of the app */
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #fafaf9; /* Ensure hover color matches the rest of the app */
+  text-decoration: none;
+  cursor: pointer;
 }

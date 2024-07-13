@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css";
 import supabase from "./supabase";
-
-import Comments from "./Comments";
+import FactModal from "./FactModal";
 
 const INITIAL_CATEGORIES = [
   { name: "technology", color: "#3b82f6" },
@@ -30,6 +29,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentCategory, setCurrentCategory] = useState("all");
   const [categories, setCategories] = useState(INITIAL_CATEGORIES);
+  const [selectedFact, setSelectedFact] = useState(null);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const addCategory = (category) => {
     setCategories((categories) => [...categories, category]);
@@ -59,6 +60,47 @@ function App() {
     [currentCategory]
   );
 
+  async function handleVote(columnName, factId) {
+    setIsUpdating(true);
+  
+    // Fetch the current value of the vote column
+    const { data: currentFact, error: fetchError } = await supabase
+      .from("facts")
+      .select(columnName)
+      .eq("id", factId)
+      .single();
+  
+    if (fetchError) {
+      console.error(fetchError);
+      setIsUpdating(false);
+      return;
+    }
+  
+    // Increment the vote value
+    const newVoteValue = currentFact[columnName] + 1;
+  
+    const { data: updatedFact, error: updateError } = await supabase
+      .from("facts")
+      .update({ [columnName]: newVoteValue })
+      .eq("id", factId)
+      .select();
+  
+    setIsUpdating(false);
+  
+    if (!updateError) {
+      setFacts((facts) =>
+        facts.map((fact) => (fact.id === factId ? updatedFact[0] : fact))
+      );
+  
+      if (selectedFact && selectedFact.id === factId) {
+        setSelectedFact(updatedFact[0]);
+      }
+    } else {
+      console.error(updateError);
+    }
+  }
+  
+
   return (
     <>
       <Header showForm={showForm} setShowForm={setShowForm} />
@@ -67,8 +109,17 @@ function App() {
       ) : null}
       <main className="main">
         <CategoryFilter setCurrentCategory={setCurrentCategory} categories={categories} />
-        {isLoading ? <Loader /> : <FactList facts={facts} setFacts={setFacts} categories={categories} />}
+        {isLoading ? <Loader /> : <FactList facts={facts} setFacts={setFacts} categories={categories} setSelectedFact={setSelectedFact} />}
       </main>
+      {selectedFact && (
+        <FactModal
+          fact={selectedFact}
+          categories={categories}
+          onClose={() => setSelectedFact(null)}
+          handleVote={(columnName) => handleVote(columnName, selectedFact.id)}
+          isUpdating={isUpdating}
+        />
+      )}
     </>
   );
 }
@@ -212,7 +263,7 @@ function CategoryFilter({ setCurrentCategory, categories }) {
   );
 }
 
-function FactList({ facts, setFacts, categories }) {
+function FactList({ facts, setFacts, categories, setSelectedFact }) {
   if (facts.length === 0) {
     return <p className="message">No facts in this category</p>;
   }
@@ -220,16 +271,15 @@ function FactList({ facts, setFacts, categories }) {
     <section>
       <ul className="facts-list">
         {facts.map((fact) => (
-          <Fact key={fact.id} fact={fact} setFacts={setFacts} categories={categories} />
+          <Fact key={fact.id} fact={fact} setFacts={setFacts} categories={categories} setSelectedFact={setSelectedFact} />
         ))}
       </ul>
     </section>
   );
 }
 
-function Fact({ fact, setFacts, categories }) {
+function Fact({ fact, setFacts, categories, setSelectedFact }) {
   const [isUpdating, setIsUpdating] = useState(false);
-  const [showComments, setShowComments] = useState(false);
 
   const isDisputed = fact.votesInteresting + fact.votesMindblowing < fact.votesFalse;
 
@@ -237,7 +287,7 @@ function Fact({ fact, setFacts, categories }) {
     setIsUpdating(true);
     const { data: updatedFact, error } = await supabase
       .from("facts")
-      .update({ [columnName]: fact[columnName] + 1 })
+      .update({ [columnName]: supabase.raw(`${columnName} + 1`) })
       .eq("id", fact.id)
       .select();
     setIsUpdating(false);
@@ -245,7 +295,7 @@ function Fact({ fact, setFacts, categories }) {
   }
 
   return (
-    <li className="fact">
+    <li className="fact" onClick={() => setSelectedFact(fact)}>
       <p>
         {isDisputed ? <span className="disputed">[DISPUTED] </span> : null}
         {fact.text}
@@ -262,20 +312,19 @@ function Fact({ fact, setFacts, categories }) {
         {fact.category}
       </span>
       <div className="vote-buttons">
-        <button onClick={() => handleVote("votesInteresting")} disabled={isUpdating}>
+        <button onClick={(e) => {e.stopPropagation(); handleVote("votesInteresting")}} disabled={isUpdating}>
           👍 {fact.votesInteresting}
         </button>
-        <button onClick={() => handleVote("votesMindblowing")} disabled={isUpdating}>
+        <button onClick={(e) => {e.stopPropagation(); handleVote("votesMindblowing")}} disabled={isUpdating}>
           🤯 {fact.votesMindblowing}
         </button>
-        <button onClick={() => handleVote("votesFalse")} disabled={isUpdating}>
+        <button onClick={(e) => {e.stopPropagation(); handleVote("votesFalse")}} disabled={isUpdating}>
           ⛔️ {fact.votesFalse}
         </button>
-        <button onClick={() => setShowComments(!showComments)} disabled={isUpdating}>
+        <button onClick={(e) => {e.stopPropagation(); setSelectedFact(fact)}} disabled={isUpdating}>
           💬 {fact.commentsCount}
         </button>
       </div>
-      {showComments && <Comments factId={fact.id} />}
     </li>
   );
 }
