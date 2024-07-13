@@ -63,10 +63,10 @@ const CATEGORIES = [
 loadFacts();
 
 async function loadFacts(){
-  const res  =await  fetch("https://dnkrawdtqitmuehkyrfg.supabase.co/rest/v1/facts",{
+  const res  =await  fetch("https://pnpcxvgkyyyepvjrrfut.supabase.co/rest/v1/topics",{
   headers:{
-    apikey:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRua3Jhd2R0cWl0bXVlaGt5cmZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTA1NzcyMjEsImV4cCI6MjAyNjE1MzIyMX0.UN70JJaoxtR1feDJQrSW3OmMPFXZLHCezebiP-wsrvc",
-    authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRua3Jhd2R0cWl0bXVlaGt5cmZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTA1NzcyMjEsImV4cCI6MjAyNjE1MzIyMX0.UN70JJaoxtR1feDJQrSW3OmMPFXZLHCezebiP-wsrvc",
+    apikey:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBucGN4dmdreXl5ZXB2anJyZnV0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQ3NTc2ODEsImV4cCI6MjAzMDMzMzY4MX0.zSvS6W0CLMTri9HufqH5-ZdAyjN1fs_cH8xWCMmUn_A",
+    authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBucGN4dmdreXl5ZXB2anJyZnV0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQ3NTc2ODEsImV4cCI6MjAzMDMzMzY4MX0.zSvS6W0CLMTri9HufqH5-ZdAyjN1fs_cH8xWCMmUn_A",
 
   }
 })
