@@ -74,6 +74,7 @@ function App() {
   
     if (fetchError) {
       console.error(fetchError);
+      console.log("Couldn't fetch");
       setIsUpdating(false);
       return;
     }
@@ -99,6 +100,9 @@ function App() {
       }
     } else {
       console.error(updateError);
+      console.error("Update error");
+      
+
     }
   }
   
@@ -287,13 +291,36 @@ function Fact({ fact, setFacts, categories, setSelectedFact }) {
 
   async function handleVote(columnName) {
     setIsUpdating(true);
-    const { data: updatedFact, error } = await supabase
+
+    // Fetch the current value of the vote column
+    const { data: currentFact, error: fetchError } = await supabase
       .from("facts")
-      .update({ [columnName]: supabase.raw(`${columnName} + 1`) })
+      .select(columnName)
+      .eq("id", fact.id)
+      .single();
+
+    if (fetchError) {
+      console.error(fetchError);
+      setIsUpdating(false);
+      return;
+    }
+
+    // Increment the vote value
+    const newVoteValue = currentFact[columnName] + 1;
+
+    const { data: updatedFact, error: updateError } = await supabase
+      .from("facts")
+      .update({ [columnName]: newVoteValue })
       .eq("id", fact.id)
       .select();
+
     setIsUpdating(false);
-    if (!error) setFacts((facts) => facts.map((f) => (f.id === fact.id ? updatedFact[0] : f)));
+
+    if (!updateError) {
+      setFacts((facts) => facts.map((f) => (f.id === fact.id ? updatedFact[0] : f)));
+    } else {
+      console.error(updateError);
+    }
   }
 
   return (
@@ -330,5 +357,6 @@ function Fact({ fact, setFacts, categories, setSelectedFact }) {
     </li>
   );
 }
+
 
 export default App;
