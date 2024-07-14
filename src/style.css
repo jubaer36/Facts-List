@@ -8,8 +8,8 @@ body {
   background-color: #26313a; /* Dark Slate */
   color: #fbfcfc; /* Light Gray */
   font-family: 'Sono', sans-serif;
-  overflow-x:auto;
-  overflow-y: auto;
+  /* overflow-x:auto;
+  overflow-y: auto; */
   padding: 48px 64px 0;
 }
 
