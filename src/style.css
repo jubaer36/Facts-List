@@ -5,16 +5,21 @@
 }
 
 body {
-  background-color: #292524;
-  color: #fafaf9;
+  background-color: #26313a; /* Dark Slate */
+  color: #fbfcfc; /* Light Gray */
   font-family: 'Sono', sans-serif;
-  padding: 48px 64px 0px;
+  overflow-x:auto;
+  overflow-y: auto;
+  padding: 48px 64px 0;
+}
+
+::-webkit-scrollbar {
+  width: 20px; /* Set width for vertical scrollbar */
 }
 
 .hidden {
   display: none !important;
 }
-
 
 .message {
   text-align: center;
@@ -25,7 +30,7 @@ body {
 }
 
 .disputed {
-  color: #ef4444;
+  color: #e74c3c; /* Red for disputed */
   font-weight: 600;
   margin-right: 10px;
 }
@@ -47,14 +52,12 @@ body {
   display: grid;
   grid-template-columns: 250px 1fr;
   gap: 48px;
-
   height: calc(100vh - 48px - 68px - 40px);
 }
 
 @media (max-width: 900px) {
   .main {
     grid-template-columns: 1fr;
-    /* Fixed in a video text overlay, to fix scrolling issue on small screens */
     height: auto;
   }
 }
@@ -65,7 +68,6 @@ section {
 }
 
 /* ELEMENTS */
-
 .logo {
   display: flex;
   align-items: center;
@@ -92,17 +94,22 @@ h1 {
 .fact {
   font-size: 20px;
   line-height: 1.4;
-  background-color: #44403c;
+  background-color: #212830; /* Slate Gray */
   margin-bottom: 16px;
   padding: 16px 24px;
-  letter-spacing: -1px;
+  letter-spacing: 0px;
   border-radius: 16px;
-
   display: flex;
   align-items: center;
   gap: 24px;
 }
-
+.fact:hover,
+.fact:active {
+  background-color: #354042; /* Muted Teal */
+  font-weight: bolder;
+  cursor: pointer;
+  
+}
 @media (max-width: 1200px) {
   .fact {
     flex-direction: column;
@@ -124,30 +131,31 @@ h1 {
 .vote-buttons {
   margin-left: auto;
   flex-shrink: 0;
-
   display: flex;
   gap: 8px;
 }
 
 .vote-buttons button {
   border: none;
-  background-color: #78716c;
+  background-color: #1F8A9E; /* Brighter Teal */
   font-size: 18px;
-  padding: 6px 12px;
-  border-radius: 100px;
-  color: inherit;
+  padding: 10px 16px;
+  border-radius: 10px;
+  color: #FFFFFF; /* White */
   font-family: inherit;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
 }
 
 .vote-buttons button:hover {
-  background-color: #292524;
+  background-color: #2CA8B3; /* Lighter Teal */
+  transform: translateY(-2px); /* Lift effect */
 }
 
 .vote-buttons button:disabled {
-  background-color: #44403c;
+  background-color: #BDC3C7; /* Gray */
 }
 
 ul {
@@ -156,33 +164,39 @@ ul {
 
 .source:link,
 .source:visited {
-  color: #a8a29e;
+  color: #124E66; /* Teal */
   text-decoration: none;
+  font-weight: bold;
   margin-left: 12px;
   transition: 0.3s;
 }
 
 .source:hover,
 .source:active {
-  color: #3b82f6;
+  color: #748D92; /* Muted Teal */
+  font-weight: bolder;
 }
 
 .btn {
   border: none;
   font-family: 'Coiny', sans-serif;
   line-height: 1;
+  
   text-transform: uppercase;
   font-size: 17px;
   padding: 16px 0 13px;
-  background-image: linear-gradient(135deg, #3b82f6, #ef4444);
-  color: inherit;
+  background-color: #1F8A9E; /* Brighter Teal */
+  color: #FFFFFF; /* White */
   border-radius: 100px;
   cursor: pointer;
-  transition: 0.3s;
+  font-weight: 600;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
 }
 
 .btn:hover {
-  transform: scale(110%) rotate(-2deg);
+  background-color: #2CA8B3; /* Lighter Teal */
+  transform: translateY(-2px); /* Lift effect */
 }
 
 .btn-large {
@@ -193,16 +207,19 @@ ul {
 .btn-all-categories {
   margin-bottom: 16px;
   width: 100%;
+  font-weight: bolder;
 }
 
 .btn-category {
   width: 100%;
   background-image: none;
+  font-weight: bolder;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 /* FORM */
 .fact-form {
-  background-color: #3c4144;
+  background-color: #2E3944; /* Slate Gray */
   margin-bottom: 40px;
   padding: 16px 32px;
   display: flex;
@@ -214,7 +231,7 @@ ul {
 .fact-form input,
 .fact-form select {
   width: 220px;
-  background-color: #78716c;
+  background-color: #BDC3C7; /* Gray */
   border: none;
   border-radius: 100px;
   padding: 16px;
@@ -224,7 +241,7 @@ ul {
 }
 
 .fact-form input::placeholder {
-  color: #a8a29e;
+  color: #7f8c8d; /* Placeholder color */
 }
 
 .fact-form input:first-child {
@@ -252,10 +269,8 @@ ul {
     width: auto;
   }
 }
-/* Add this to style.css */
 
-/* Add this to style.css */
-
+/* MODAL */
 .modal {
   position: fixed;
   z-index: 1000;
@@ -264,24 +279,24 @@ ul {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.8); /* Adjust background overlay for a darker theme */
+  background-color: rgba(0, 0, 0, 0.8); /* Dark overlay */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .modal-content {
-  background-color: #44403c; /* Match the background color of fact cards */
+  background-color: #2E3944; /* Slate Gray */
   padding: 20px;
-  border: 1px solid #888;
+  border: 1px solid #BDC3C7; /* Gray */
   width: 80%;
   max-width: 500px;
   position: relative;
-  color: #fafaf9; /* Ensure text color matches the rest of the app */
+  color: #D3D9D4; /* Light Gray */
 }
 
 .close {
-  color: #aaa;
+  color: #D3D9D4; /* Light Gray */
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -290,7 +305,19 @@ ul {
 
 .close:hover,
 .close:focus {
-  color: #fafaf9; /* Ensure hover color matches the rest of the app */
+  color: #124E66; /* Teal */
   text-decoration: none;
   cursor: pointer;
+}
+.source:link,
+.source:visited {
+  color: #D3D9D4; /* Light Gray */
+  text-decoration: underline; /* Add underline for visibility */
+  margin-left: 12px;
+  transition: 0.3s;
+}
+
+.source:hover,
+.source:active {
+  color: #748D92; /* Muted Teal */
 }

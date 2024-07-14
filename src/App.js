@@ -4,15 +4,17 @@ import supabase from "./supabase";
 import FactModal from "./FactModal";
 
 const INITIAL_CATEGORIES = [
-  { name: "technology", color: "#3b82f6" },
-  { name: "science", color: "#16a34a" },
-  { name: "finance", color: "#ef4444" },
-  { name: "society", color: "#eab308" },
-  { name: "entertainment", color: "#db2777" },
-  { name: "health", color: "#14b8a6" },
-  { name: "history", color: "#f97316" },
-  { name: "news", color: "#8b5cf6" },
+  { name: "technology", color: "#0A4D5A" }, // Dark Teal
+  { name: "science", color: "#0E4B3A" },    // Dark Green
+  { name: "finance", color: "#B03A2E" },     // Dark Red
+  { name: "society", color: "#B68E00" },     // Dark Gold
+  { name: "entertainment", color: "#A50034" }, // Dark Magenta
+  { name: "health", color: "#0F6B68" },      // Dark Cyan
+  { name: "history", color: "#C27BA0" },     // Dark Pink
+  { name: "news", color: "#4B3C6A" },        // Dark Purple
 ];
+
+
 
 function getRandomColor() {
   const letters = "0123456789ABCDEF";
