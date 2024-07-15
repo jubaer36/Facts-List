@@ -325,34 +325,38 @@ function Fact({ fact, setFacts, categories, setSelectedFact }) {
 
   return (
     <li className="fact" onClick={() => setSelectedFact(fact)}>
-      <p>
-        {isDisputed ? <span className="disputed">[DISPUTED] </span> : null}
-        {fact.text}
-        <a className="source" href={fact.source} target="_blank" rel="noopener noreferrer">
-          (Source)
-        </a>
-      </p>
-      <span
-        className="tag"
-        style={{
-          backgroundColor: categories.find((cat) => cat.name === fact.category)?.color,
-        }}
-      >
-        {fact.category}
-      </span>
-      <div className="vote-buttons">
-        <button onClick={(e) => {e.stopPropagation(); handleVote("votesInteresting")}} disabled={isUpdating}>
-          👍 {fact.votesInteresting}
-        </button>
-        <button onClick={(e) => {e.stopPropagation(); handleVote("votesMindblowing")}} disabled={isUpdating}>
-          🤯 {fact.votesMindblowing}
-        </button>
-        <button onClick={(e) => {e.stopPropagation(); handleVote("votesFalse")}} disabled={isUpdating}>
-          ⛔️ {fact.votesFalse}
-        </button>
-        <button onClick={(e) => {e.stopPropagation(); setSelectedFact(fact)}} disabled={isUpdating}>
-          💬 {fact.commentsCount}
-        </button>
+        <div className="fact-wrapper">
+        <div className="fact-desc">
+          <p>
+            {isDisputed ? <span className="disputed">[DISPUTED] </span> : null}
+            {fact.text}
+            <a className="source" href={fact.source} target="_blank" rel="noopener noreferrer">
+              (Source)
+            </a>
+          </p>
+          <span
+            className="tag"
+            style={{
+              backgroundColor: categories.find((cat) => cat.name === fact.category)?.color,
+            }}
+          >
+            {fact.category}
+          </span>
+        </div>
+        <div className="vote-buttons">
+          <button onClick={(e) => {e.stopPropagation(); handleVote("votesInteresting")}} disabled={isUpdating}>
+            👍 {fact.votesInteresting}
+          </button>
+          <button onClick={(e) => {e.stopPropagation(); handleVote("votesMindblowing")}} disabled={isUpdating}>
+            🤯 {fact.votesMindblowing}
+          </button>
+          <button onClick={(e) => {e.stopPropagation(); handleVote("votesFalse")}} disabled={isUpdating}>
+            ⛔️ {fact.votesFalse}
+          </button>
+          <button onClick={(e) => {e.stopPropagation(); setSelectedFact(fact)}} disabled={isUpdating}>
+            💬 {fact.commentsCount}
+          </button>
+        </div>
       </div>
     </li>
   );

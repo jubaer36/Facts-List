@@ -54,15 +54,15 @@ function Comments({ factId }) {
             <li key={comment.id}>{comment.comment}</li>
           ))}
         </ul>
-        <form onSubmit={handleAddComment}>
-          <input
+        <form className="comment-form" onSubmit={handleAddComment}>
+          <input className="comment-text"
             type="text"
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
             placeholder="Add a comment..."
             disabled={isLoading}
           />
-          <button type="submit" disabled={isLoading}>
+          <button className="btn" type="submit" disabled={isLoading}>
             Post
           </button>
         </form>
